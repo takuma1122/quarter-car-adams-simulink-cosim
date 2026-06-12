@@ -1,11 +1,11 @@
 # Quarter-Vehicle MBD Co-Simulation with Active Suspension Control
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Adams](https://img.shields.io/badge/MSC_Adams-2023-blue)
-![MATLAB](https://img.shields.io/badge/MATLAB%2FSimulink-R2023b-orange)
+![Adams](https://img.shields.io/badge/Adams-2024.1-blue)
+![MATLAB](https://img.shields.io/badge/MATLAB%2FSimulink-R2024b-orange)
 ![Python](https://img.shields.io/badge/Python-3.10+-green)
 
-A full-stack multibody dynamics co-simulation project demonstrating active suspension control design using **MSC Adams** and **MATLAB/Simulink**, with Python-based parametric study and sensitivity analysis.
+A full-stack multibody dynamics co-simulation project demonstrating active suspension control design using **Adams** and **MATLAB/Simulink**, with Python-based parametric study and sensitivity analysis.
 
 ---
 
@@ -13,7 +13,7 @@ A full-stack multibody dynamics co-simulation project demonstrating active suspe
 
 This project implements a quarter-vehicle model to evaluate and optimize active suspension performance through the following integrated workflow:
 
-1. **Multibody dynamics modeling** in MSC Adams (Adams View + Adams/Controls + Adams/Tire)
+1. **Multibody dynamics modeling** in Adams (Adams View + Adams Controls)
 2. **Active suspension control design** in MATLAB/Simulink — from linearization and PID design to nonlinear co-simulation validation
 3. **Parametric study and sensitivity analysis** in Python (SALib, GPR surrogate modeling) *(in progress)*
 
@@ -35,9 +35,9 @@ The workflow follows a **Model-Based Development (MBD) V-model process**: physic
 │                           │                         │
 │               Actuator Force ──→ [ Adams Plant ]    │
 └──────────────────────────────────────────────────────┘
-                ↕  TCP/IP  (Adams/Controls)
+                ↕  TCP/IP  (Adams Controls)
 ┌──────────────────────────────────────────────────────┐
-│                MSC Adams Solver Process              │
+│                  Adams Solver Process                │
 │                                                      │
 │   Sprung Mass ←── Suspension ←── Unsprung Mass      │
 │                  (Spring + Damper + Actuator)        │
@@ -56,9 +56,8 @@ The workflow follows a **Model-Based Development (MBD) V-model process**: physic
 
 | Layer | Tool | Notes |
 |---|---|---|
-| Multibody Dynamics | MSC Adams (View + Controls + Tire) | Full MBS solver |
+| Multibody Dynamics | Adams (View + Adams Controls) | Full MBS solver |
 | Co-Simulation / Control | MATLAB / Simulink | S-Function interface |
-| Tire Model | PAC89 (Magic Formula) | via Adams/Tire |
 | Parametric Study | Python + adams-tools | Automated batch execution |
 | Sensitivity Analysis | SALib (Sobol indices) | *(planned)* |
 | Surrogate Modeling | scikit-learn (GPR) | *(planned)* |
@@ -82,14 +81,14 @@ The workflow follows a **Model-Based Development (MBD) V-model process**: physic
 
 ### Tire Model
 
-The **PAC89 (Magic Formula)** tire model is integrated via MSC Adams/Tire, capturing nonlinear force–slip and force–vertical load characteristics for realistic road–tire interaction.
+The **PAC89 (Magic Formula)** tire model is integrated into the Adams model, capturing nonlinear force–slip and force–vertical load characteristics for realistic road–tire interaction.
 
 ### Control Design Workflow
 
 ```
 Adams Model
     │
-    ├─ Linearization  (Adams/Controls: operating point extraction)
+    ├─ Linearization  (Adams Controls: operating point extraction)
     │         ↓
     │   State-Space Export  (.m file)
     │         ↓
@@ -120,14 +119,14 @@ This flow mirrors the **MIL → Co-Simulation validation** step in the MBD V-mod
 
 ### Prerequisites
 
-- MSC Adams (Adams View, Adams/Controls, Adams/Tire)
-- MATLAB R2023b or later with Simulink
+- Adams (Adams View, Adams Controls, Adams Solver)
+- MATLAB R2024b or later with Simulink
 - Python 3.10+
 
 ### Python Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/quarter-vehicle-mbd-cosim.git
+git clone https://github.com/Takuma1122/quarter-vehicle-mbd-cosim.git
 cd quarter-vehicle-mbd-cosim
 pip install -r requirements.txt
 ```
@@ -175,8 +174,8 @@ quarter-vehicle-mbd-cosim/
 ## Roadmap
 
 - [x] Quarter-vehicle multibody model (Adams View)
-- [x] Adams/Tire integration (PAC89)
-- [x] Adams–Simulink co-simulation setup (Adams/Controls)
+- [x] PAC89 tire model integration
+- [x] Adams–Simulink co-simulation setup (Adams Controls)
 - [x] PID active suspension controller
 - [ ] Python parametric study (stiffness / damping sweep)
 - [ ] Sobol sensitivity analysis (SALib)
@@ -188,7 +187,7 @@ quarter-vehicle-mbd-cosim/
 
 ## Background
 
-This project was developed as part of a personal engineering portfolio. The author is a simulation engineer with 10+ years of experience in mechanical design and multibody dynamics, specializing in MSC Adams across the full product suite. The project demonstrates an end-to-end MBD workflow integrating physical modeling, control design, and data-driven analysis — skills increasingly required in automotive, industrial machinery, and robotics development.
+This project was developed as part of a personal engineering portfolio. The author is a simulation engineer with 10+ years of experience in mechanical design and multibody dynamics, specializing in Adams across the full product suite. The project demonstrates an end-to-end MBD workflow integrating physical modeling, control design, and data-driven analysis — skills increasingly required in automotive, industrial machinery, and robotics development.
 
 ---
 
@@ -200,4 +199,4 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 ## Contact
 
-[LinkedIn](https://www.linkedin.com/in/YOUR_PROFILE) · [Zenn](https://zenn.dev/YOUR_ACCOUNT) · your.email@example.com
+[LinkedIn](https://www.linkedin.com/in/takuma-matsuda) · your.email@example.com
