@@ -5,11 +5,10 @@
 > comfort over a passive suspension, on both random and step road inputs.
 
 ![demo](results/demo.gif)
-<!-- TODO: short animation of passive vs skyhook over a bump -->
 
 ## What this is
 
-The quarter-car plant (sprung mass, unsprung mass, suspension, PAC89 tire) is built in
+The quarter-car plant (sprung mass, unsprung mass, suspension, PAC2002 tire) is built in
 MSC Adams and exported with Adams/Controls as a co-simulation plant. Simulink runs the
 controller and exchanges signals with the Adams Solver every communication interval. The
 same model is switched between **passive** and **semi-active skyhook** control, and between
