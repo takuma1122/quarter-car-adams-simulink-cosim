@@ -1,202 +1,109 @@
-# Quarter-Vehicle MBD Co-Simulation with Active Suspension Control
+# Quarter-Car Active Suspension — Adams–Simulink Co-Simulation
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Adams](https://img.shields.io/badge/Adams-2024.1-blue)
-![MATLAB](https://img.shields.io/badge/MATLAB%2FSimulink-R2024b-orange)
-![Python](https://img.shields.io/badge/Python-3.10+-green)
+> A high-fidelity multibody quarter-car (MSC Adams) coupled to a MATLAB/Simulink
+> semi-active **skyhook** controller. Shows how closed-loop control improves ride
+> comfort over a passive suspension, on both random and step road inputs.
 
-A full-stack multibody dynamics co-simulation project demonstrating active suspension control design using **Adams** and **MATLAB/Simulink**, with Python-based parametric study and sensitivity analysis.
+![demo](results/demo.gif)
+<!-- TODO: short animation of passive vs skyhook over a bump -->
 
----
+## What this is
 
-## Overview
+The quarter-car plant (sprung mass, unsprung mass, suspension, PAC89 tire) is built in
+MSC Adams and exported with Adams/Controls as a co-simulation plant. Simulink runs the
+controller and exchanges signals with the Adams Solver every communication interval. The
+same model is switched between **passive** and **semi-active skyhook** control, and between
+a **step** and a **random (ISO 8608)** road, so all four cases run from one script.
 
-This project implements a quarter-vehicle model to evaluate and optimize active suspension performance through the following integrated workflow:
-
-1. **Multibody dynamics modeling** in Adams (Adams View + Adams Controls)
-2. **Active suspension control design** in MATLAB/Simulink — from linearization and PID design to nonlinear co-simulation validation
-3. **Parametric study and sensitivity analysis** in Python (SALib, GPR surrogate modeling) *(in progress)*
-
-The workflow follows a **Model-Based Development (MBD) V-model process**: physical plant modeled in Adams, controller designed in Simulink via linearized state-space, and performance validated through real-time co-simulation — reflecting industry practice in automotive and industrial machinery development.
-
----
-
-## System Architecture
-
-```
-┌──────────────────────────────────────────────────────┐
-│                    MATLAB / Simulink                 │
-│                                                      │
-│   Road Input ──→ [ Adams Plant (S-Function .dll) ]  │
-│                           │                         │
-│               Sprung Mass Acceleration               │
-│                           ↓                         │
-│                   [ PID Controller ]                 │
-│                           │                         │
-│               Actuator Force ──→ [ Adams Plant ]    │
-└──────────────────────────────────────────────────────┘
-                ↕  TCP/IP  (Adams Controls)
-┌──────────────────────────────────────────────────────┐
-│                  Adams Solver Process                │
-│                                                      │
-│   Sprung Mass ←── Suspension ←── Unsprung Mass      │
-│                  (Spring + Damper + Actuator)        │
-│                                    │                │
-│                           PAC89 Tire Model          │
-│                                    │                │
-│                              Road Surface           │
-└──────────────────────────────────────────────────────┘
-```
-
-> The Adams S-Function serves as an **interface layer** that launches a separate Adams Solver process at runtime. Simulink acts as the control-side master, exchanging states and forces with Adams at each co-simulation time step.
-
----
-
-## Technical Stack
-
-| Layer | Tool | Notes |
-|---|---|---|
-| Multibody Dynamics | Adams (View + Adams Controls) | Full MBS solver |
-| Co-Simulation / Control | MATLAB / Simulink | S-Function interface |
-| Parametric Study | Python + adams-tools | Automated batch execution |
-| Sensitivity Analysis | SALib (Sobol indices) | *(planned)* |
-| Surrogate Modeling | scikit-learn (GPR) | *(planned)* |
-| Visualization | matplotlib, plotly, Streamlit | *(planned)* |
-
----
-
-## Model Details
-
-### Quarter-Vehicle Parameters
-
-| Parameter | Symbol | Value | Unit |
-|---|---|---|---|
-| Sprung mass | m_s | — | kg |
-| Unsprung mass | m_u | — | kg |
-| Suspension stiffness | k_s | — | N/m |
-| Suspension damping | c_s | — | N·s/m |
-| Tire model | — | PAC89 | — |
-
-> Fill in actual values when the model is finalized.
-
-### Tire Model
-
-The **PAC89 (Magic Formula)** tire model is integrated into the Adams model, capturing nonlinear force–slip and force–vertical load characteristics for realistic road–tire interaction.
-
-### Control Design Workflow
-
-```
-Adams Model
-    │
-    ├─ Linearization  (Adams Controls: operating point extraction)
-    │         ↓
-    │   State-Space Export  (.m file)
-    │         ↓
-    │   PID Design  (MATLAB pidtune / manual tuning)
-    │         ↓
-    └─ Nonlinear Validation  (Adams–Simulink Co-Simulation)
-```
-
-This flow mirrors the **MIL → Co-Simulation validation** step in the MBD V-model, ensuring that the controller designed on a linearized plant performs correctly on the full nonlinear MBS model.
-
----
+**Skills demonstrated:** multibody dynamics (MSC Adams), Adams–Simulink co-simulation,
+semi-active control (skyhook), MATLAB scripting & signal processing, ride-comfort vs
+road-holding analysis.
 
 ## Results
 
-> Screenshots and plots will be added here once PID tuning is complete.
+<!-- TODO: fill in your numbers and figures -->
+On the random road, skyhook reduced the RMS sprung-mass acceleration by ~`XX`% versus
+passive (better comfort); on the step road it settled noticeably faster. The trade-off is
+slightly more suspension travel — the expected comfort vs rattle-space compromise.
 
-### Performance Comparison: Passive vs. Active Suspension
+| metric                          | passive | skyhook |
+|---------------------------------|--------:|--------:|
+| comfort — sprung accel RMS       |    …    |    …    |
+| road holding — tire-defl RMS     |    …    |    …    |
+| stroke — susp-defl RMS           |    …    |    …    |
 
-| Metric | Passive | Active (PID) | Improvement |
-|---|---|---|---|
-| RMS Sprung Mass Acceleration (m/s²) | — | — | — |
-| Max Suspension Stroke (mm) | — | — | — |
-| Tire Load Variation (N) | — | — | — |
+![random road](results/random_road.png)
+![step road](results/step_road.png)
 
----
-
-## Getting Started
-
-### Prerequisites
-
-- Adams (Adams View, Adams Controls, Adams Solver)
-- MATLAB R2024b or later with Simulink
-- Python 3.10+
-
-### Python Setup
-
-```bash
-git clone https://github.com/Takuma1122/quarter-vehicle-mbd-cosim.git
-cd quarter-vehicle-mbd-cosim
-pip install -r requirements.txt
-```
-
-### Running the Co-Simulation
-
-1. Open `adams/models/quarter_vehicle.cmd` in Adams View
-2. Open `simulink/models/qv_cosim.slx` in MATLAB/Simulink
-3. Run the Simulink model — Adams Solver launches automatically via the S-Function
-4. Simulation results are saved to `results/`
-
-### Running the Parametric Study *(planned)*
-
-```bash
-cd python/parametric_study
-python run_study.py
-```
-
----
-
-## Repository Structure
+## How it works
 
 ```
-quarter-vehicle-mbd-cosim/
-├── adams/
-│   ├── models/             # Adams model files (.cmd, .adm, .adb)
-│   ├── tire/               # PAC89 tire parameter files (.tir)
-│   └── scripts/            # Adams batch execution scripts (.acf)
-├── simulink/
-│   ├── models/             # Simulink model files (.slx)
-│   └── init_params.m       # Parameter initialization script
-├── python/
-│   ├── parametric_study/   # Automated parametric run scripts
-│   └── postprocess/        # Result parsing and plotting
-├── docs/
-│   ├── architecture.png    # System overview diagram
-│   └── theory.md           # Equations of motion and model background
-├── results/                # Sample output data (.csv)
-├── requirements.txt
-└── README.md
+ road input            control force (skyhook)
+     |                          ^
+     v                          |
+ +----------------+   y   +-------------------+
+ |  MSC Adams     | ----> |  Simulink         |
+ |  plant         |       |  skyhook / passive|
+ | (Adams Solver) | <---- |                   |
+ +----------------+   u   +-------------------+
+   Adams/Controls           adams_sub S-Function
+   (co-simulation)          (separate Adams Solver process)
 ```
 
----
+Two base-workspace switches select the case:
 
-## Roadmap
+- `use_skyhook` : 0 = passive, 1 = skyhook
+- `use_random`  : 0 = step road, 1 = random road
 
-- [x] Quarter-vehicle multibody model (Adams View)
-- [x] PAC89 tire model integration
-- [x] Adams–Simulink co-simulation setup (Adams Controls)
-- [x] PID active suspension controller
-- [ ] Python parametric study (stiffness / damping sweep)
-- [ ] Sobol sensitivity analysis (SALib)
-- [ ] GPR surrogate model
-- [ ] Streamlit visualization dashboard
-- [ ] English technical article (Zenn / Medium)
+## Repository structure
 
----
+```
+.
+├── adams/                  # Adams quarter-car plant + Adams/Controls export
+├── simulink/               # co-simulation model (.slx)
+├── matlab/                 # init.m (setup) + postprocess.m (metrics & plots)
+├── results/                # figures and demo animation
+└── docs/                   # engineering notes
+```
 
-## Background
+## How to run
 
-This project was developed as part of a personal engineering portfolio. The author is a simulation engineer with 10+ years of experience in mechanical design and multibody dynamics, specializing in Adams across the full product suite. The project demonstrates an end-to-end MBD workflow integrating physical modeling, control design, and data-driven analysis — skills increasingly required in automotive, industrial machinery, and robotics development.
+1. **Export the plant (once).** In Adams/Controls, export the quarter-car for
+   MATLAB/Simulink in *co-simulation* mode, producing `Controls_Plant.m`.
+2. **Run `matlab/init.m`.** Sets the model parameters and generates the step and random
+   road profiles.
+3. **Run `matlab/postprocess.m`.** Runs all four cases (2 roads × passive/skyhook),
+   prints the metric tables, and plots the comparisons.
 
----
+## Design notes
+
+- **Controller:** semi-active skyhook, `F = -C_sky * v_sprung`, clipped to the dissipative
+  quadrant (a real damper can only remove energy).
+- **Excitation:** the road is applied at the tire–road contact (road -> body), the
+  physically correct input for a ride study.
+- **Units:** the Adams model uses the MMKS system (mm, kg, N, s); logged signals are in
+  mm and mm/s².
+- **Known limitation:** the semi-active clipping produces a switching shock (acceleration
+  spikes at damper on/off). Smoothing the transition (low-pass / rate-limit / dead-band)
+  is listed under future work.
+
+## Limitations & future work
+
+- Smooth the semi-active switching to remove the acceleration spikes.
+- Extend to a full-vehicle model (Adams/Car); add a braking / cornering scenario.
+- Add Python automation for parameter sweeps and sensitivity analysis.
+
+## References
+
+- H. B. Pacejka, *Tyre and Vehicle Dynamics*.
+- D. Karnopp, M. J. Crosby, R. A. Harwood — semi-active "skyhook" damping.
+- ISO 8608 — mechanical vibration, road surface profiles.
+- MSC Adams/Controls documentation.
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT — see [LICENSE](LICENSE).
 
----
+## Author
 
-## Contact
-
-[LinkedIn](https://www.linkedin.com/in/takuma-matsuda) · your.email@example.com
+`<name>` — multibody dynamics & CAE.  LinkedIn: `<link>`
