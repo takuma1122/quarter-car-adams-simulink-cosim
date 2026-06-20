@@ -1,6 +1,6 @@
 # Quarter-Car Active Suspension — Adams–Simulink Co-Simulation
 
-> High-fidelity multibody quarter-car (MSC Adams) coupled to a MATLAB/Simulink semi-active
+> High-fidelity multibody quarter-car (Adams) coupled to a MATLAB/Simulink semi-active
 > **skyhook** controller. Quantifies the ride-comfort vs road-holding trade-off of skyhook
 > control against a passive suspension, on random and step roads.
 
@@ -9,13 +9,13 @@
 
 ## What this is
 
-The quarter-car plant (sprung mass, unsprung mass, suspension, PAC89 tire) is built in
+The quarter-car plant (sprung mass, unsprung mass, suspension, PAC2002 tire) is built in
 MSC Adams and exported with Adams/Controls as a co-simulation plant. Simulink runs the
 controller and exchanges signals with the Adams Solver every communication interval. The
 same model is switched between **passive** and **semi-active skyhook** control, and between
 a **step** and a **random (ISO 8608)** road, so all four cases run from one script.
 
-**Skills demonstrated:** multibody dynamics (MSC Adams), Adams–Simulink co-simulation,
+**Skills demonstrated:** multibody dynamics (Adams), Adams–Simulink co-simulation,
 semi-active control (skyhook), MATLAB scripting & signal processing, and — most importantly —
 interpreting the comfort vs road-holding trade-off from the results.
 
@@ -112,13 +112,6 @@ Two base-workspace switches select the case:
 - Smooth the semi-active switching to remove the acceleration spikes at damper on/off.
 - Extend to a full-vehicle model (Adams/Car); add a braking / cornering scenario.
 - Add Python automation for parameter sweeps and sensitivity analysis.
-
-## References
-
-- H. B. Pacejka, *Tyre and Vehicle Dynamics*.
-- D. Karnopp, M. J. Crosby, R. A. Harwood — semi-active "skyhook" damping.
-- ISO 8608 — mechanical vibration, road surface profiles.
-- MSC Adams/Controls documentation.
 
 ## License
 
