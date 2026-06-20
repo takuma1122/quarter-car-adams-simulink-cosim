@@ -40,16 +40,16 @@ Suspension stroke increased modestly, as expected for an actively worked suspens
 ## Discussion — why road-holding degrades on the random road
 
 An ideal skyhook law commands **zero force** whenever the damper cannot dissipate in the
-required direction (the "off" quadrant, where `v_sprung · v_rel ≤ 0`). During those
+required direction (the "off" quadrant, where `sprung_vel · susp_vel ≤ 0`). During those
 intervals the unsprung mass is left essentially undamped, which raises the dynamic tire
 load in the wheel-hop band. A passive damper, by contrast, provides damping at all times,
 so it holds the road better in this respect.
 
-A sweep of the skyhook coefficient `c_sky` confirmed the effect is **monotonic and
-structural** — road-holding improves as `c_sky` increases but never reaches the passive
+A sweep of the skyhook coefficient `cs_s` confirmed the effect is **monotonic and
+structural** — road-holding improves as `cs_s` increases but never reaches the passive
 level — which is consistent with this mechanism rather than an implementation error.
 
-![holding vs c_sky](results/holding_sweep.png)
+![holding vs cs_s](results/holding_sweep.png)
 
 A semi-active implementation that keeps a small minimum off-state damping (`c_min`) would
 mitigate this; it is listed under future work.
@@ -61,7 +61,7 @@ mitigate this; it is listed under future work.
      |                          ^
      v                          |
  +----------------+   y   +-------------------+
- |  MSC Adams     | ----> |  Simulink         |
+ |  Adams         | ----> |  Simulink         |
  |  plant         |       |  skyhook / passive|
  | (Adams Solver) | <---- |                   |
  +----------------+   u   +-------------------+
