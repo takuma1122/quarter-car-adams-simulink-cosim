@@ -87,13 +87,9 @@ Two base-workspace switches select the case:
 
 ## How to run
 
-1. **Export the plant (once).** In Adams/Controls, export the quarter-car for
-   MATLAB/Simulink in *co-simulation* mode, producing `Controls_Plant.m`.
-2. **Run `matlab/init.m`.** Sets the model parameters and generates the step and random
-   road profiles.
-3. **Run `matlab/postprocess.m`.** Runs all four cases (2 roads × passive/skyhook),
+1. **Run `matlab/postprocess.m`.** Runs all four cases (2 roads × passive/skyhook),
    prints the metric tables, and plots the comparisons.
-4. *(optional)* **Run `matlab/sweep_cs_s.m`** to trace road holding and comfort against the
+2. *(optional)* **Run `matlab/sweep_cs_s.m`** to trace road holding and comfort against the
    skyhook coefficient.
 
 ## Design notes
