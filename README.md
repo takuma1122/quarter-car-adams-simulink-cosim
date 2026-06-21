@@ -78,7 +78,7 @@ Two base-workspace switches select the case:
 
 ```
 .
-├── adams/                  # Adams quarter-car plant + Adams/Controls export
+├── adams/                  # Adams quarter-car model + Adams/Controls export
 ├── simulink/               # co-simulation model (.slx)
 ├── matlab/                 # init.m (setup), postprocess.m (metrics & plots), sweep_cs_s.m
 ├── results/                # figures and demo animation
