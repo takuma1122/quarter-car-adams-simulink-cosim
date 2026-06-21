@@ -51,7 +51,7 @@ level — which is consistent with this mechanism rather than an implementation 
 
 ![holding vs cs_s](results/holding_sweep.png)
 
-A semi-active implementation that keeps a small minimum off-state damping (`c_min`) would
+A semi-active implementation that keeps a small minimum off-state damping (`cs_s_min`) would
 mitigate this; it is listed under future work.
 
 ## How it works
@@ -98,7 +98,7 @@ Two base-workspace switches select the case:
 
 ## Design notes
 
-- **Controller:** semi-active skyhook, `F = -c_sky · v_sprung`, clipped to the dissipative
+- **Controller:** semi-active skyhook, `F = -cs_s · sprung_acc`, clipped to the dissipative
   quadrant (a real damper can only remove energy).
 - **Excitation:** the road is applied at the tire–road contact (road → body), the
   physically correct input for a ride study.
@@ -107,7 +107,7 @@ Two base-workspace switches select the case:
 
 ## Limitations & future work
 
-- Add a minimum off-state damping (`c_min`) to the semi-active law to recover road holding
+- Add a minimum off-state damping (`cs_s_min`) to the semi-active law to recover road holding
   on broadband roads.
 - Smooth the semi-active switching to remove the acceleration spikes at damper on/off.
 - Extend to a full-vehicle model (Adams/Car); add a braking / cornering scenario.
@@ -119,4 +119,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Author
 
-`<name>` — multibody dynamics & CAE.  LinkedIn: `<link>`
+`Takuma Matsuda` — multibody dynamics & CAE.  LinkedIn: `www.linkedin.com/in/takuma-matsuda`
