@@ -86,14 +86,16 @@ Two base-workspace switches select the case:
 
 ## How to run
 
-1. **Run `matlab/postprocess.m`.** Runs all four cases (2 roads × passive/skyhook),
+1. **Open `simulink/quarter_car.slx`.** Its PreLoadFcn runs `init.m`, which sets the
+   parameters, generates the road profiles, and loads the Adams/Controls plant.
+2. **Run `matlab/postprocess.m`.** Runs all four cases (2 roads × passive/skyhook),
    prints the metric tables, and plots the comparisons.
-2. *(optional)* **Run `matlab/sweep_cs_s.m`** to trace road holding and comfort against the
+3. *(optional)* **Run `matlab/sweep_cs_s.m`** to trace road holding and comfort against the
    skyhook coefficient.
 
 ## Design notes
 
-- **Controller:** semi-active skyhook, `F = -cs_s · sprung_acc`, clipped to the dissipative
+- **Controller:** semi-active skyhook, `F = -cs_s · sprung_vel`, clipped to the dissipative
   quadrant (a real damper can only remove energy).
 - **Excitation:** the road is applied at the tire–road contact (road → body), the
   physically correct input for a ride study.
