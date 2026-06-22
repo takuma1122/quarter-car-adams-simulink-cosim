@@ -61,12 +61,11 @@ mitigate this; it is listed under future work.
      |                          ^
      v                          |
  +----------------+   y   +-------------------+
- |  Adams         | ----> |  Simulink         |
- |  plant         |       |  skyhook / passive|
- | (Adams Solver) | <---- |                   |
+ |  Adams plant   | ----> | Simulink          |
+ | (Adams Solver) | <---- | skyhook / passive |
  +----------------+   u   +-------------------+
-   Adams/Controls           adams_sub S-Function
-   (co-simulation)          (Adams Solver runs in its own process, separate from Simulink)
+   Adams/Controls          adams_sub S-Function
+   (co-simulation)         (Adams Solver runs in its own process, separate from Simulink)
 ```
 
 Two base-workspace switches select the case:
