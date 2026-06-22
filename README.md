@@ -57,9 +57,9 @@ mitigate this; it is listed under future work.
 ## How it works
 
 ```
- road input            control force (skyhook)
-     |                          ^
-     v                          |
+     road input            control force (skyhook)
+         |                          ^
+         v                          |
  +----------------+   y   +-------------------+
  |  Adams plant   | ----> | Simulink          |
  | (Adams Solver) | <---- | skyhook / passive |
