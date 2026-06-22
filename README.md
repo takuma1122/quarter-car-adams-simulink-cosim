@@ -116,4 +116,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Author
 
-`Takuma Matsuda` — multibody dynamics & CAE.  LinkedIn: `www.linkedin.com/in/takuma-matsuda`
+`Takuma Matsuda` — multibody dynamics & CAE. [LinkedIn](https://www.linkedin.com/in/takuma-matsuda)
