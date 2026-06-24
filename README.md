@@ -1,8 +1,8 @@
 # Quarter-Car Active Suspension — Adams–Simulink Co-Simulation
 
-> High-fidelity multibody quarter-car (Adams) coupled to a MATLAB/Simulink semi-active
-> **skyhook** controller. Quantifies the ride-comfort vs road-holding trade-off of skyhook
-> control against a passive suspension, on random and step roads.
+> A multibody quarter-car (Adams) coupled to a MATLAB/Simulink semi-active **skyhook**
+> controller. Compares skyhook against a passive suspension on step and random roads, and
+> examines the ride-comfort vs road-holding trade-off.
 
 ![demo](results/demo.gif)
 <!-- TODO: short animation of passive vs skyhook over a bump -->
@@ -16,8 +16,8 @@ same model is switched between **passive** and **semi-active skyhook** control, 
 a **step** and a **random (ISO 8608)** road, so all four cases run from one script.
 
 **Skills demonstrated:** multibody dynamics (Adams), Adams–Simulink co-simulation,
-semi-active control (skyhook), MATLAB scripting & signal processing, and — most importantly —
-interpreting the comfort vs road-holding trade-off from the results.
+semi-active control (skyhook), MATLAB scripting & signal processing, and interpreting
+the comfort vs road-holding trade-off from the results.
 
 ## Results
 
@@ -57,15 +57,16 @@ mitigate this; it is listed under future work.
 ## How it works
 
 ```
-     road input            control force (skyhook)
-         |                          ^
-         v                          |
+ road input            control force (skyhook)
+     |                          ^
+     v                          |
  +----------------+   y   +-------------------+
- |  Adams plant   | ----> | Simulink          |
- | (Adams Solver) | <---- | skyhook / passive |
+ |  Adams         | ----> |  Simulink         |
+ |  plant         |       |  skyhook / passive|
+ | (Adams Solver) | <---- |                   |
  +----------------+   u   +-------------------+
-   Adams/Controls          adams_sub S-Function
-   (co-simulation)         (Adams Solver runs in its own process, separate from Simulink)
+   Adams/Controls           adams_sub S-Function
+   (co-simulation)          (Adams Solver runs in its own process, separate from Simulink)
 ```
 
 Two base-workspace switches select the case:
@@ -84,6 +85,8 @@ Two base-workspace switches select the case:
 ```
 
 ## How to run
+
+*Built with MSC Adams 2024.1 and MATLAB/Simulink R2024b.*
 
 1. **Open `simulink/quarter_car.slx`.** Its PreLoadFcn runs `init.m`, which sets the
    parameters, generates the road profiles, and loads the Adams/Controls plant.
@@ -115,4 +118,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Author
 
-`Takuma Matsuda` — multibody dynamics & CAE. [LinkedIn](https://www.linkedin.com/in/takuma-matsuda)
+`Takuma Matsuda` — multibody dynamics & CAE.  LinkedIn: `www.linkedin.com/in/takuma-matsuda`
