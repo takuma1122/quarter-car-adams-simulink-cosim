@@ -10,7 +10,7 @@
 ## What this is
 
 The quarter-car plant (sprung mass, unsprung mass, suspension, PAC2002 tire) is built in
-MSC Adams and exported with Adams/Controls as a co-simulation plant. Simulink runs the
+Adams and exported with Adams/Controls as a co-simulation plant. Simulink runs the
 controller and exchanges signals with the Adams Solver every communication interval. The
 same model is switched between **passive** and **semi-active skyhook** control, and between
 a **step** and a **random (ISO 8608)** road, so all four cases run from one script.
@@ -86,7 +86,7 @@ Two base-workspace switches select the case:
 
 ## How to run
 
-*Built with MSC Adams 2024.1 and MATLAB/Simulink R2024b.*
+*Built with Adams 2024.1 and MATLAB/Simulink R2024b.*
 
 1. **Open `simulink/quarter_car.slx`.** Its PreLoadFcn runs `init.m`, which sets the
    parameters, generates the road profiles, and loads the Adams/Controls plant.
